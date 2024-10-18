@@ -1,0 +1,36 @@
+<?php 
+use App\Models\Mortuary;
+
+$city=selectCity();
+$mortuaries=Mortuary::all();
+?>
+
+<section class="karta_all">
+    <div class="container">
+        <div class="title">Кладбища г. {{$city->title}} на карте</div>
+        <div id="map" style="width: 100%; height: 600px"></div>
+    </div>
+</section>
+
+
+<script>
+   ymaps.ready(init_mortuary);
+
+function init_mortuary() {
+    var myMap = new ymaps.Map("map_mortuary", {
+            center: ['{{$city->width}}','{{$city->longitude}}'],
+            zoom: 10
+        }, {
+            searchControlProvider: 'yandex#search'
+        });
+@if(count($mortuaries)>0)
+    @foreach($mortuaries as $mortuary)
+      myMap.geoObjects
+        .add(new ymaps.Placemark(['{{$mortuary->width}}', '{{$mortuary->longitude}}'], {
+            balloonContent: '{{$mortuary->title}}',
+            iconCaption: '{{$mortuary->title}}'
+        },));
+    @endforeach
+@endif
+}
+</script>
