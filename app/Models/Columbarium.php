@@ -13,4 +13,8 @@ class Columbarium extends Model
         $district=District::find($this->district_id);
         return $district;
     }
+
+    public function route(){
+        return route('columbarium.single',$this->id);
+    }
 }

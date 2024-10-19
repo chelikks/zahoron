@@ -1,8 +1,6 @@
 <?php 
-use App\Models\Mortuary;
-
 $city=selectCity();
-$mortuaries=Mortuary::all();
+$mortuaries=allMortuary();
 ?>
 
 <section class="karta_all">

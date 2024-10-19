@@ -17,6 +17,7 @@ use App\Models\CategoryProductProvider;
 use App\Models\CommentProduct;
 use App\Models\FaqCategoryProduct;
 use App\Models\FaqService;
+use App\Models\Mortuary;
 use App\Models\Organization;
 use App\Models\ReviewsOrganization;
 use App\Models\Service;
@@ -24,6 +25,7 @@ use App\Models\ServiceReviews;
 use App\Models\User;
 use Ausi\SlugGenerator\SlugGenerator;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -816,4 +818,25 @@ function dateBurialInBase($date){
     $date=explode('-',$date);
     $new_date="{$date[2]}.{$date[1]}.{$date[0]}";
     return $new_date;
+}
+
+function allMortuary(){
+    return Mortuary::all();
+}
+
+function allCemetery(){
+    return Cemetery::all();
+}
+
+
+
+
+
+
+function getCoordinatesCity($city){
+    $apiKey='f85b1a2e01a144d496d767cb921c8b60';
+    $client = new Client();
+    $response = $client->get("https://api.opencagedata.com/geocode/v1/json?q={$city}&key=f85b1a2e01a144d496d767cb921c8b60");
+    return $data = json_decode($response->getBody(), true)['result'][0];
+    
 }

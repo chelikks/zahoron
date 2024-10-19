@@ -13,4 +13,8 @@ class Crematorium extends Model
         $district=District::find($this->district_id);
         return $district;
     }
+
+    public function route(){
+        return route('crematorium.single',$this->id);
+    }
 }

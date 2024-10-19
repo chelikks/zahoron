@@ -23,4 +23,8 @@ class Cemetery extends Model
         return $organiazations;
     }
 
+    public function route(){
+        return route('cemeteries.single',$this->id);
+    }
+
 }

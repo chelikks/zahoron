@@ -28,5 +28,15 @@ class City extends Model
         return District::where('city_id',$this->id)->get();
     }
 
+    public function route(){
+        return route('city.select',$this->id);
+    }
+
+    public function edgeCities(){
+        return City::orderBy('title','asc')->where('edge_id',$this->edge_id)->get();
+    }
+
+
+    
   
 }

@@ -16,4 +16,8 @@ class Mortuary extends Model
         return $district;
     }
 
+    public function route(){
+        return route('mortuary.single',$this->id);
+    }
+
 }
