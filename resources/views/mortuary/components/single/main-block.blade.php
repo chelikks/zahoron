@@ -1,7 +1,7 @@
 <div class="block_content_organization_single">
     <div class="main_block_organization_single">
         <div class="logo_organization_single">
-            <img src="{{asset('storage/uploads_mortuary/'.$mortuary->img)}}" alt="">
+            <img src="{{$mortuary->urlImg()}}" alt="">
             <div class="blue_btn">{{$mortuary->title}}</div>
         </div>
         <div class="content_main_block_organization_single">

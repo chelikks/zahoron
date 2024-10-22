@@ -6,6 +6,7 @@ use App\Models\Cemetery;
 use App\Models\Faq;
 use App\Models\City;
 use App\Models\News;
+use App\Models\Organization;
 use App\Models\Page;
 use App\Models\Review;
 use App\Models\Service;

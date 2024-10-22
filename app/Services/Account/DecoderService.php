@@ -98,7 +98,7 @@ class DecoderService {
 
     public static function paymentsOnVerification(){
         $user=user();
-        $payments=Task::orderBy('id','desc')->where('status',0)->where('user_id',$user->id)->get();        
+        $payments=Task::orderBy('id','desc')->whereIn('status',[0,2])->where('user_id',$user->id)->get();        
         return view('account.decoder.payments.verification',compact('payments'));
     }
 
@@ -120,9 +120,13 @@ class DecoderService {
     }
 
     public static function addCommentBurial($data){
+        $status=2;
+        if($data['comment']=='На фотографии нет памятника или нет данных на памятнике'){
+            $status=3;
+        }
         $burial=Burial::find($data['burial_id'])->update([
             'comment'=>$data['comment'],
-            'status'=>2,
+            'status'=>$status,
             'decoder_id'=>user()->id,
 
         ]);
@@ -131,7 +135,9 @@ class DecoderService {
 
 
     public static function updateBurial($data){
+        $user=user();
         $burial=Burial::find($data['burial_id']);
+        $slug=slug("{$data['surname']} {$data['name']} {$data['patronymic']} {$data['date_birth']}");
         $burial->update([
             'name'=>$data['name'],
             'surname'=>$data['surname'],
@@ -140,14 +146,35 @@ class DecoderService {
             'status'=>1,
             'decoder_id'=>user()->id,
             'date_birth'=>dateBurialInBase($data['date_birth']),
+            'slug'=>$slug,
         ]);
-        Task::create([
-            'title'=>'Расшифровка',
-            'burial_id'=>$burial->id,
-            'user_id'=>user()->id,
-            'price'=>$burial->cemetery()->price_decode,
-        ]);
+        $payment_last=Task::orderBy('id','desc')->whereIn('status',[0])->where('user_id',$user->id)->first();     
+
+        if($payment_last!=null){
+            $payment_last->update([
+                'count'=>$payment_last->count+1,
+            ]);
+
+        }else{
+            Task::create([
+                'title'=>'Расшифровка',
+                'count'=>1,
+                'burial_id'=>$burial->id,
+                'user_id'=>user()->id,
+                'price'=>$burial->cemetery()->price_decode,
+            ]);
+        }
         return redirect()->back()->with("message_cart", 'Захоронение успешно обновлено');
     }
 
+    public static function withdraw($id){
+        $payment=Task::find($id);
+        if($payment->count>=500){
+            $payment->update([
+                'status'=>2,
+            ]);
+            return redirect()->back()->with("message_cart", 'Оплата будет произведена в течение 3-5 дней после проверки');
+        }
+        return redirect()->back()->with("error", 'Количество должно быть больше 500');
+    }
 }

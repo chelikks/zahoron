@@ -12,7 +12,7 @@
                 <div class="swiper-slide">
                     <div class="li_organization_similar">
                         <img class='logo_organization_similar'src="{{asset('storage/uploads_organization/'.$similar_organization->logo)}}" alt="">
-                        <a href='{{route('organization.single',$similar_organization->id)}}'class="title_news">{{$similar_organization->title}} </a>
+                        <a href='{{$similar_organization->route()}}'class="title_news">{{$similar_organization->title}} </a>
                         <div class="flex_stars">
                             <img src="{{asset('storage/uploads/Frame 334.svg')}}" alt="">
                             <div class="text_black_mini">{{$similar_organization->rating}}</div>

@@ -13,7 +13,7 @@ class City extends Model
     protected $guarded =[];
 
     public function cityOrganizations(){
-        return $oganizations=Organization::where('city_id',$this->id)->get();
+        return $oganizations=Organization::where('city_id',$this->id)->where('role','organization')->get();
     }
 
     public function cemeteries(){

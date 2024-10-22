@@ -12,7 +12,7 @@
                 <div class="item_2_decoder">
                     <div class="img_burial_edit_decoder">
                         <div class="blue_btn">
-                            Качество
+                            Пожаловаться
                             <div class="comments_burial">
                                 <div  class="comment_burial">Размытое изображение</div>
                                 <div  class="comment_burial">Памятник мокрый данные нечитаемые</div>

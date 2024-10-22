@@ -12,6 +12,7 @@ use App\Models\Mortuary;
 use App\Models\Organization;
 use App\Models\ReviewMortuary;
 use App\Models\ServiceMortuary;
+use App\Models\UsefulMortuary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +27,10 @@ class MortuaryService {
 
     public static function index(){
         $city=selectCity();
+        $usefuls=UsefulMortuary::orderBy('id','desc')->get();
+        $products=randomProductsPlace();
         $mortuaries=Mortuary::orderBy('id', 'asc')->where('city_id',$city->id)->get();
-        return view('mortuary.index',compact('mortuaries','city'));
+        return view('mortuary.index',compact('mortuaries','city','products','usefuls'));
     }
 
     public static function single($id){

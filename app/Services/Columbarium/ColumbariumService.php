@@ -11,16 +11,16 @@ use App\Models\Columbarium;
 use App\Models\Organization;
 use App\Models\ReviewColumbarium;
 use App\Models\ServiceColumbarium;
-
-
-
+use App\Models\UsefulColumbarium;
 
 class ColumbariumService {
 
     public static function index(){
         $city=selectCity();
+        $products=randomProductsPlace();
+        $usefuls=UsefulColumbarium::orderBy('id','desc')->get();
         $columbariums=Columbarium::orderBy('id', 'asc')->where('city_id',$city->id)->get();
-        return view('columbarium.index',compact('columbariums','city'));
+        return view('columbarium.index',compact('columbariums','city','products','usefuls'));
     }
 
 

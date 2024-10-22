@@ -20,17 +20,17 @@
                 @if (isset($mortuaries) && $mortuaries->count()>0)
                     @foreach ($mortuaries as $mortuary)
                         <div  class="li_place">
-                            <a  href="{{ $mortuary->route() }}"  class="img_place"> <img src="{{asset('storage/uploads_mortuary/'.$mortuary->img)}}" alt=""> </a>
+                            <a  href="{{ $mortuary->route() }}"  class="img_place"> <img src="{{$mortuary->urlImg()}}" alt=""> </a>
                             <div class="content_place_mini">
-                                <a href="{{ route('mortuary.single',$mortuary->id) }}" class="title_blue">{{$mortuary->title}}</a>
+                                <a href="{{ $mortuary->route() }}" class="title_blue">{{$mortuary->title}}</a>
                                 <div class="text_black">г.{{$city->title}}</div>
                             </div>
-                            <div class="btn_border_gray">Открыто</div>
+                            <div class="btn_border_gray">{{$mortuary->openOrNot()}}</div>
                         </div>
                     @endforeach
                 @endif
             </div>
-            <div class="sidebar_place"></div>
+            {{view('mortuary.components.sidebar',compact('products'))}}
         </div>
 
 
@@ -43,6 +43,7 @@
     </div>
 </section>
 
+{{view('components.useful',compact('usefuls'))}}
 
 
 @include('components.monuments-grave')
@@ -67,13 +68,18 @@ function init() {
         });
 @if (isset($mortuaries) && $mortuaries->count()>0)
     @foreach($mortuaries as $mortuary)
-      myMap.geoObjects
+    myMap.geoObjects
         .add(new ymaps.Placemark(['{{$mortuary->width}}', '{{$mortuary->longitude}}'], {
-            balloonContent: '{{$mortuary->title}}',
+            balloonContent: '{!!$mortuary->title.'<br> <img src="'.asset('storage/uploads/Frame 334.svg').'" alt="">  '.$mortuary->rating.'<br>'.$mortuary->countReviews().' отзывов' !!}',
             iconCaption: '{{$mortuary->title}}'
-        },));
+        },{
+            iconLayout: 'default#image',
+            iconImageHref: "{{asset('storage/uploads/game-icons_morgue-feet (2).svg')}}",
+            iconImageSize: [40,40] // Размер иконки
+        }));
     @endforeach
 @endif
 }
 </script>
+
 @include('footer.footer') 

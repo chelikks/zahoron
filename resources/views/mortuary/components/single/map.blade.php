@@ -26,7 +26,7 @@
 function init() {
     var myMap = new ymaps.Map("map_organization_single", {
             center: [{{  $mortuary->width}}, {{$mortuary-> longitude}}],
-            zoom: 10
+            zoom: 12
         }, {
             searchControlProvider: 'yandex#search'
         });
@@ -34,10 +34,15 @@ function init() {
 @if(count($mortuary_all)>0)
     @foreach($mortuary_all as $mortuary_one)
       myMap.geoObjects
+      myMap.geoObjects
         .add(new ymaps.Placemark(['{{$mortuary_one->width}}', '{{$mortuary_one->longitude}}'], {
-            balloonContent: '{!!$mortuary_one->title!!}',
-            iconCaption: '{!!$mortuary_one->title!!}'
-        },));
+            balloonContent: '{!!$mortuary_one->title.'<br> <img src="'.asset('storage/uploads/Frame 334.svg').'" alt="">  '.$mortuary_one->rating.'<br>'.$mortuary_one->countReviews().' отзывов' !!}',
+            iconCaption: '{{$mortuary->title}}'
+        },{
+            iconLayout: 'default#image',
+            iconImageHref: "{{asset('storage/uploads/game-icons_morgue-feet.svg')}}",
+            iconImageSize: [40,40] // Размер иконки
+        }));
     @endforeach
 @endif
 }

@@ -11,16 +11,16 @@ use App\Models\Crematorium;
 use App\Models\Organization;
 use App\Models\ReviewCrematorium;
 use App\Models\ServiceCrematorium;
-
-
-
+use App\Models\UsefulCrematorium;
 
 class CrematoriumService {
 
     public static function index(){
         $city=selectCity();
+        $usefuls=UsefulCrematorium::orderBy('id','desc')->get();
+        $products=randomProductsPlace();
         $crematoriums=Crematorium::orderBy('id', 'asc')->where('city_id',$city->id)->get();
-        return view('crematorium.index',compact('crematoriums','city'));
+        return view('crematorium.index',compact('crematoriums','city','products','usefuls'));
     }
 
     public static function single($id){

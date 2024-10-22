@@ -10,8 +10,8 @@
             @foreach($organizations_our as $organization_our)
                 <div class="swiper-slide">
                     <div class="li_organization_similar">
-                        <img class='logo_organization_similar'src="{{asset('storage/uploads_organization/'.$organization_our->logo)}}" alt="">
-                        <a href='{{route('organization.single',$organization_our->id)}}'class="title_news">{{$organization_our->title}} </a>
+                        <img class='logo_organization_similar'src="{{$organization_our->urlImg()}}" alt="">
+                        <a href='{{$organization_our->route()}}'class="title_news">{{$organization_our->title}} </a>
                         <div class="flex_stars">
                             <img src="{{asset('storage/uploads/Frame 334.svg')}}" alt="">
                             <div class="text_black_mini">{{$organization_our->rating}}</div>

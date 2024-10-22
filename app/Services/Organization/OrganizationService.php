@@ -22,11 +22,13 @@ use Illuminate\Support\Facades\Auth;
 class OrganizationService 
 {
 
-    public static function single($id){
-        $organization=Organization::find($id);
-        if($organization->status!=1){
+    public static function single($slug){
+        $organization=Organization::where('slug',$slug)->where('status',1)->first();
+        $user=user();
+        if($organization==null){
             return redirect()->back();
         }
+        $id=$organization->id;
 
         $categories_organization=CategoryProduct::whereIn('id',ActivityCategoryOrganization::where('organization_id',$id)->pluck('category_main_id'))->get();
 
@@ -54,7 +56,7 @@ class OrganizationService
             return view('organization.single.single-agency',compact('categories_organization','city','similar_organizations','main_categories','children_categories','organization_all','rating_reviews','organization','images','reviews','products_our','reviews','reviews_main','ritual_products'));
         }
         
-        if($organization->role=='organization-provider' && Auth::check() && Auth::user()->role!='user'){
+        if($organization->role=='organization-provider' && Auth::check() && user()->role=='organization'){
             $categories_organization=CategoryProductProvider::whereIn('id',ActivityCategoryOrganization::where('organization_id',$id)->pluck('category_main_id'))->get();
             $remnants_ritual_goods=PriceListOrganization::orderBy('id','desc')->where('organization_id',$id)->where('type','remnant-ritual-good')->get();
             $price_lists=PriceListOrganization::orderBy('id','desc')->where('organization_id',$id)->where('type','price-list')->get();
@@ -218,6 +220,13 @@ class OrganizationService
         }
         $city=selectCity();
         return  view('organization.components.catalog.title-page',compact('city','category','category_main','district_choose','cemetery_choose'));
+    }
+
+    public static function ajaxMapOrganizations($data){
+        $category=CategoryProduct::find($data['category_id']);
+        $city=selectCity();
+        $organizations_category=orgniaztionsFilters($data);
+        return view('organization.components.catalog.map-cats',compact('category','organizations_category','city'));
     }
     
 }

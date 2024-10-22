@@ -9,8 +9,8 @@ use App\Services\Organization\OrganizationService;
 class OrganizationController extends Controller
 {
 
-    public static function single($id){
-        return OrganizationService::single($id);
+    public static function single($slug){
+        return OrganizationService::single($slug);
     }
 
     public static function addReview(Request $request){
@@ -67,6 +67,19 @@ class OrganizationController extends Controller
         return OrganizationService::catalogOrganization($data);
     }
 
+    public static function ajaxMapOrganizations(Request $request){
+        $data=request()->validate([
+            'cemetery_id'=>['nullable'],
+            'filter_work'=>['nullable','string'],
+            'district_id'=>['nullable'],
+            'sort'=>['nullable'],
+            'category_id'=>['nullable','integer'],
+        ]);
+       
+        return OrganizationService::ajaxMapOrganizations($data);
+        
+    }
+
 
     public static function ajaxFilterCatalog(Request $request){
         $data=request()->validate([
@@ -98,7 +111,6 @@ class OrganizationController extends Controller
         ]);
         return OrganizationService::ajaxTitlePage($data);
     }
-
 
 
 
@@ -160,5 +172,7 @@ class OrganizationController extends Controller
         ]);
         return OrganizationProviderService::ajaxRatingOrganizationProvider($data);
     }
+
+    
     
 }

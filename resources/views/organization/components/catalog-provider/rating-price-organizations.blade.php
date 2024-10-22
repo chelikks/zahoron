@@ -17,8 +17,8 @@
                         <?php $organization=$oragnization_rating->organization();?>
                             <tr>
                                 <td class='name_organization'>
-                                    <img src="{{asset('storage/uploads_organization/'.$organization->logo)}}" alt="">
-                                    <a href='{{route('organization.single',$organization->id)}}'class="title_organization">Ритуальное агентство 
+                                    <img src="{{$organization->urlImg()}}" alt="">
+                                    <a href='{{$organization->route()}}'class="title_organization">Ритуальное агентство 
                                         "{{$organization->title}}"
                                     </a>
                                 </td>

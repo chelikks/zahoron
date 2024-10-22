@@ -33,6 +33,10 @@
         </div>
 </section>
 
+<div class="map_organizations">
+    {{view('organization.components.catalog.map-cats',compact('category','organizations_category','city'));}}
+</div>
+
 <section>
     <div class="container">
         <div class="gos_block gos_block_1">
@@ -251,6 +255,23 @@ $( ".li_cat_children_marketplace" ).on( "click", function() {
     });
 
 
+    $.ajax({
+        type: 'GET',
+        url: '{{route('organizations.ajax.map')}}',
+        data: filters,
+        success: function (result) {
+           $('.map_organizations').html(result)
+           $('.bac_loader').fadeOut()
+           $('.load_block').fadeOut()
+        },
+        error: function () {
+            alert('Ошибка');
+            $('.bac_loader').fadeOut()
+            $('.load_block').fadeOut()
+        }
+    });
+
+
     
 })
 
@@ -337,6 +358,21 @@ $( ".filter_block_organization select" ).on( "change", function() {
             $('.load_block').fadeOut()
         }
     });
+    $.ajax({
+        type: 'GET',
+        url: '{{route('organizations.ajax.map')}}',
+        data: filters,
+        success: function (result) {
+           $('.map_organizations').html(result)
+           $('.bac_loader').fadeOut()
+           $('.load_block').fadeOut()
+        },
+        error: function () {
+            alert('Ошибка');
+            $('.bac_loader').fadeOut()
+            $('.load_block').fadeOut()
+        }
+    });
 })
 
 
@@ -394,6 +430,7 @@ $( ".filter_sort .li_sort" ).on( "click", function() {
                 alert('Ошибка');
             }
         });
+        
 })
 
 
@@ -458,6 +495,21 @@ $( "#filter_work" ).on( "change", function() {
             $('.bac_loader').fadeOut()
             $('.load_block').fadeOut()
             alert('Ошибка');
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: '{{route('organizations.ajax.map')}}',
+        data: filters,
+        success: function (result) {
+           $('.map_organizations').html(result)
+           $('.bac_loader').fadeOut()
+           $('.load_block').fadeOut()
+        },
+        error: function () {
+            alert('Ошибка');
+            $('.bac_loader').fadeOut()
+            $('.load_block').fadeOut()
         }
     });
 })

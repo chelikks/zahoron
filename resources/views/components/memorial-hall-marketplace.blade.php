@@ -25,7 +25,7 @@ use App\Models\ImageProduct;
                             <div class="grid_two">
                                 <div class="flex_info_hall">
                                     <?php $organization=Organization::find($product_memorial_hall->organization_id);?>
-                                    <img src="{{asset('storage/uploads_organization/'.$organization->logo)}}" alt="">
+                                    <img src="{{$organization->urlImg()}}" alt="">
                                     <div class="flex_hall">
                                         <a href='{{route('product.single',$product_memorial_hall->id)}}' class="title_memorial_hall">{{$product_memorial_hall->title}}</a>
                                         <div class="flex_monuments_grave">

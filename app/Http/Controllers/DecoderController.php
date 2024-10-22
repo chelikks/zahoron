@@ -94,4 +94,8 @@ class DecoderController extends Controller
         ]);
         return DecoderService::updateBurial($data);
     }
+
+    public static function withdraw($id){
+        return DecoderService::withdraw($id);
+    }
 }

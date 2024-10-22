@@ -1,6 +1,6 @@
 <div class="ul_product_market">
     @if(isset($products))
-        @if(count($products)>0)
+        @if($products->count()>0)
             @foreach ($products as $product)
                 <div class="li_product_market">
                 <?php $images=$product->getImages();?>

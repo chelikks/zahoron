@@ -5743,3 +5743,28 @@ text-align: left;
     display: block;
 
 }
+
+
+.sidebar_place .blue_btn{
+    width: 100%;
+    margin-bottom: 40px;
+}
+.ul_products_sidebar_places .blue_btn{
+width: auto;
+}
+.ul_products_sidebar_places{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.withdraw_decoder{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.flex_info_hall img{
+    max-width: 70px;
+    width: 100%;
+}

@@ -131,7 +131,7 @@
                         <div class="flex_form_settings">
                             <div class="block_inpit_form_search">
                                 <label class='label_input'>Номер карты</label>
-                                <input type="password" autocomplete="off" name='number_cart' value='{{ $user->number_cart }}'placeholder='Номер карты'>
+                                <input type="text" autocomplete="off" name='number_cart' value='{{ $user->number_cart }}'placeholder='Номер карты'>
             
                                 @error('number_cart')
                                     <div class='error-text'>{{ $message }}</div>

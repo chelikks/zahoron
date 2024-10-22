@@ -12,6 +12,7 @@ use App\Models\ImageCemetery;
 use App\Models\Organization;
 use App\Models\ReviewCemetery;
 use App\Models\ServiceCemetery;
+use App\Models\UsefulCemetery;
 use Illuminate\Http\Request;
 
 
@@ -21,8 +22,10 @@ class CemeteryService {
     public static function index(){
         $page=5;
         $city=selectCity();
+        $products=randomProductsPlace();
+        $usefuls=UsefulCemetery::orderBy('id','desc')->get();
         $cemeteries=Cemetery::orderBy('id', 'asc')->where('city_id',$city->id)->get();
-        return view('cemetery.index',compact('cemeteries','page','city'));
+        return view('cemetery.index',compact('cemeteries','page','city','products','usefuls'));
     }
 
     public static function singleCemetery($id){

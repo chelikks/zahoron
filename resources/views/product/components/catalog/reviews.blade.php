@@ -1,4 +1,4 @@
-@if(count($reviews)>0)
+@if($reviews->count()>0)
 <section class='reviews_organizations reviews_products'>
     <div class="container">
         <div class="title">Отзывы клиентов</div>

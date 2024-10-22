@@ -1,7 +1,7 @@
 <div class="block_content_organization_single">
     <div class="main_block_organization_single">
         <div class="logo_organization_single">
-            <img src="{{asset('storage/uploads_crematorium/'.$crematorium->img)}}" alt="">
+            <img src="{{$crematorium->urlImg()}}" alt="">
             <div class="blue_btn">{{$crematorium->title}}</div>
         </div>
         <div class="content_main_block_organization_single">

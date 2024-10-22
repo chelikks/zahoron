@@ -14,20 +14,25 @@ $cemeteries=allCemetery();
 <script>
     ymaps.ready(init);
 
-function init() {
+    function init() {
     var myMap = new ymaps.Map("map", {
-            center: ['{{$city->width}}','{{$city->longitude}}'],
-            zoom: 10
+            center: ['{{$city->width}}', '{{$city->longitude}}'],
+            zoom: 12
         }, {
             searchControlProvider: 'yandex#search'
         });
-@if(count($cemeteries)>0)
+        
+@if (isset($cemeteries) && $cemeteries->count()>0)
     @foreach($cemeteries as $cemetery)
       myMap.geoObjects
         .add(new ymaps.Placemark(['{{$cemetery->width}}', '{{$cemetery->longitude}}'], {
-            balloonContent: '{{$cemetery->title}}',
+            balloonContent: '{!!$cemetery->title.'<br> <img src="'.asset('storage/uploads/Frame 334.svg').'" alt="">  '.$cemetery->rating.'<br>'.$cemetery->countReviews().' отзывов' !!}',
             iconCaption: '{{$cemetery->title}}'
-        },));
+         }, {
+            iconLayout: 'default#image',
+            iconImageHref: "{{asset('storage/uploads/mdi_grave-stone (1).svg')}}",
+            iconImageSize: [40,40] // Размер иконки
+        }));
     @endforeach
 @endif
 }

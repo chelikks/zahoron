@@ -37,7 +37,7 @@
             <div class="li_provider_btn_flex">
                 <a href='{{asset('storage/uploads_organization/'.$organization->remains)}}' download class="blue_btn">Остатки</a>
                 <a href='{{asset('storage/uploads_organization/'.$organization->price_list)}}' download class="blue_btn">Прайс</a>
-                <a href='{{route('organization.single',$organization->id)}}' class="blue_btn">Страница</a>
+                <a href='{{$organization->route()}}' class="blue_btn">Страница</a>
                 <div class="blue_btn">Чат</div>
                 <a href='tel:{{$organization->phone}}' class="blue_btn">Позвонить</a>
 

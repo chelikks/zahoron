@@ -64,6 +64,13 @@ class User extends Authenticatable
 
 
     public function decoderIncome(){
-        return Task::where('user_id',$this->id)->where('status',1)->pluck('price')->sum();
+        $sum=0;
+        $payments=Task::where('user_id',$this->id)->where('status',1)->get();
+        if($payments->count()>0){
+            foreach($payments as $payment){
+                $sum=$sum+$payment->price*$payment->count;
+            }
+        }
+        return $sum;
     }
 }

@@ -21,8 +21,8 @@ $reviews_organization=reviewsOrganization($city->id);
                                     $organization=Organization::find($review_organization->organization_id);
                                     $user_city=User::find($review_organization->user_id);
                                 ?>
-                                <img src="{{asset('storage/uploads_organization/'.$organization->logo)}}" alt="">
-                                <a href={{route('organization.single',$organization->id)}} class="title_organization">Ритуальное агентство 
+                                <img src="{{$organization->urlImg()}}" alt="">
+                                <a href='{{$organization->route()}}' class="title_organization">Ритуальное агентство 
                                     "{{$organization->title}}"</a>
                             </div>
                             <div class="raiting_memorial_dinner">

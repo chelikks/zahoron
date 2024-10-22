@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ImageCrematorium extends Model
 {
     use HasFactory;
+
+    public function urlImg(){
+        if($this->href_img==0){
+            return asset('storage/uploads_crematorium/'.$this->title);
+        }
+        return $this->title;
+    }
 }

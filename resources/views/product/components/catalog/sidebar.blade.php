@@ -4,7 +4,7 @@
     <div class="title_cat_marketplace">Категории</div>
     <div class="ul_cats_marketplace">
     @if(isset($cats))
-        @if (count($cats)>0)
+        @if($cats->count()>0)
             @foreach ($cats as $cat)
                 <div class="main_cat">
 

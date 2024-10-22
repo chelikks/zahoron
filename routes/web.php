@@ -51,6 +51,8 @@ use Illuminate\Support\Facades\Artisan;
 #убирать die когда нужно использовать artisan 
 $city = @explode("/", explode("//", request()->fullUrl())[1])[1];
 
+if (!request()->is('storage/*') && !request()->is('css/*') && !request()->is('js/*')) {
+    
 if(city_by_slug($city) == null){
     setcookie('city', '', -1, '/');
     setcookie("city", first_city_id(), time()+20*24*60*60,'/');
@@ -64,7 +66,7 @@ if(city_by_slug($city) == null){
         header("Refresh:0");
         die;
     }
-
+}
 }
 
 
@@ -88,7 +90,7 @@ Route::prefix($city)->group(function () {
     Route::get('/city/{id}', [CityController::class, 'selectCity'])->name('city.select');
 
 
-    Route::get('/organization/{id}', [OrganizationController::class, 'single'])->name('organization.single');
+    Route::get('/organization/{slug}', [OrganizationController::class, 'single'])->name('organization.single');
 
     Route::get('/organizations', [OrganizationController::class, 'catalogOrganization'])->name('organizations');
 
@@ -100,6 +102,8 @@ Route::prefix($city)->group(function () {
         Route::get('/organizations/filters', [OrganizationController::class, 'ajaxFilterCatalog'])->name('organizations.ajax.filters');
         Route::get('/organizations/category-prices', [OrganizationController::class, 'ajaxCategoryPrices'])->name('organizations.ajax.category-prices');
         Route::get('/organizations/title', [OrganizationController::class, 'ajaxTitlePage'])->name('organizations.ajax.title');
+        Route::get('/organizations/map', [OrganizationController::class, 'ajaxMapOrganizations'])->name('organizations.ajax.map');
+
         
 
         Route::get('/organizations-provider/filters', [OrganizationController::class, 'ajaxFilterCatalogProvider'])->name('organizations.provider.ajax.filters');
@@ -389,6 +393,8 @@ Route::prefix($city)->group(function () {
         Route::group(['prefix'=>'account'], function() {
             
             Route::group(['prefix'=>'decoder'], function() {
+
+                Route::get('withdraw/{id}', [DecoderController::class, 'withdraw'])->name('account.decoder.withdraw');
 
                 Route::get('settings', [DecoderController::class, 'settings'])->name('account.decoder.settings');
                 Route::get('settings/update', [DecoderController::class, 'settingsUpdate'])->name('account.decoder.settings.update');

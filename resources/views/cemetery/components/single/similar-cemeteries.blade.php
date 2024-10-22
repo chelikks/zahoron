@@ -10,7 +10,7 @@
             @foreach($similar_cemeteries as $similar_cemetery)
                 <div class="swiper-slide">
                     <div class="li_organization_similar">
-                        <img class='logo_organization_similar' src="{{asset('storage/uploads_cemeteries/'.$similar_cemetery->img )}}" alt="">
+                        <img class='logo_organization_similar' src="{{$similar_cemetery->urlImg() }}" alt="">
                         <a href='{{route('cemeteries.single',$similar_cemetery->id)}}'class="title_news">{{$similar_cemetery->title}} </a>
                         <div class="flex_stars">
                             <img src="{{asset('storage/uploads/Frame 334.svg')}}" alt="">

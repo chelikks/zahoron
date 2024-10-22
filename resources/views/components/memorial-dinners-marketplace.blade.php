@@ -19,7 +19,7 @@ use App\Models\Organization;
                             <div class="flex_info_memorial_dinner">
                                 <?php $organization=Organization::find($product_memorial_dinner->organization_id);?>
 
-                                <img src="{{asset('storage/uploads_organization/'.$organization->logo)}}" alt="">
+                                <img src="{{$organization->urlImg()}}" alt="">
                                 <div class="content_memorial_dinner">
                                     <div class="title_organization">{{$product_memorial_dinner->title_institution}}</div>
                                     <div class="raiting_memorial_dinner">

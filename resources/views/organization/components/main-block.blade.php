@@ -1,7 +1,7 @@
 <div class="block_content_organization_single">
     <div class="main_block_organization_single">
         <div class="logo_organization_single">
-            <img src="{{asset('storage/uploads_organization/'.$organization->logo)}}" alt="">
+            <img src="{{$organization->urlImg()}}" alt="">
             <div class="blue_btn">{{$organization->title}}</div>
         </div>
         <div class="content_main_block_organization_single">
@@ -31,7 +31,7 @@
             <div class="text_black margin_top_single_organization">{!!$organization->mini_content!!}</div>
         </div>
         <div class="flex_center_single_organization">
-            <div class="btn_border_gray">Открыто</div>
+            <div class="btn_border_gray">{{$organization->openOrNot()}}</div>
             <div class="mini_text_blue">Вы владелец?</div>
         </div>
     </div>

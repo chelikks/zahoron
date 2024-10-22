@@ -15,6 +15,7 @@ class CityService {
         $city=City::findOrFail($id);
         $new_url = insert_city_into_url(url()->previous(), $city->slug);
         return redirect($new_url);
+        
     }
 
     public static function ajaxCity($city){

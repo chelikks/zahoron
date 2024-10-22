@@ -26,18 +26,22 @@
 function init() {
     var myMap = new ymaps.Map("map_organization_single", {
             center: [{{  $crematorium->width}}, {{$crematorium-> longitude}}],
-            zoom: 10
+            zoom: 12
         }, {
             searchControlProvider: 'yandex#search'
         });
 
 @if(count($crematorium_all)>0)
     @foreach($crematorium_all as $crematorium_one)
-      myMap.geoObjects
+    myMap.geoObjects
         .add(new ymaps.Placemark(['{{$crematorium_one->width}}', '{{$crematorium_one->longitude}}'], {
-            balloonContent: '{!!$crematorium_one->title!!}',
-            iconCaption: '{!!$crematorium_one->title!!}'
-        },));
+            balloonContent: '{!!$crematorium_one->title.'<br> <img src="'.asset('storage/uploads/Frame 334.svg').'" alt="">  '.$crematorium_one->rating.'<br>'.$crematorium_one->countReviews().' отзывов' !!}',
+            iconCaption: '{{$crematorium->title}}'
+        },{
+            iconLayout: 'default#image',
+            iconImageHref: "{{asset('storage/uploads/emojione-monotone_funeral-urn.svg')}}",
+            iconImageSize: [40,40] // Размер иконки
+        }));
     @endforeach
 @endif
 }

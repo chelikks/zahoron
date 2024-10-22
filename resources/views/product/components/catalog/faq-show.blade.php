@@ -1,5 +1,5 @@
 @if (isset($faqs))
-    @if (count($faqs)>0)
+    @if ($faqs->count()>0)
         <section class="faq">
             <div class="container">
                 <div class="title">Часто задаваемые вопросы</div>

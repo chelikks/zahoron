@@ -26,7 +26,7 @@
 function init() {
     var myMap = new ymaps.Map("map_organization_single", {
             center: [{{  $columbarium->width}}, {{$columbarium-> longitude}}],
-            zoom: 10
+            zoom: 12
         }, {
             searchControlProvider: 'yandex#search'
         });
@@ -35,9 +35,13 @@ function init() {
     @foreach($columbarium_all as $columbarium_one)
       myMap.geoObjects
         .add(new ymaps.Placemark(['{{$columbarium_one->width}}', '{{$columbarium_one->longitude}}'], {
-            balloonContent: '{!!$columbarium_one->title!!}',
+            balloonContent: '{!!$columbarium_one->title.'<br> <img src="'.asset('storage/uploads/Frame 334.svg').'" alt="">  '.$columbarium_one->rating.'<br>'.$columbarium_one->countReviews().' отзывов' !!}',
             iconCaption: '{!!$columbarium_one->title!!}'
-        },));
+        },{
+            iconLayout: 'default#image',
+            iconImageHref: "{{asset('storage/uploads/mdi_grave-stone (2).svg')}}",
+            iconImageSize: [40,40] // Размер иконки
+        }));
     @endforeach
 @endif
 }

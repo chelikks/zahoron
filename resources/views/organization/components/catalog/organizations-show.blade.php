@@ -4,13 +4,13 @@
         <?php $organization=$organization_category->organization();?>
         <div class="li_organization">
             <div class="li_logo_organization">
-                <img class='img_logo_organization'src="{{asset('storage/uploads_organization/'.$organization->logo)}}" alt="">
+                <img class='img_logo_organization'src="{{$organization->urlImg()}}" alt="">
                 <div class="flex_stars">
                     <img src="{{asset('storage/uploads/Frame 334.svg')}}" alt=""> <div class="text_black">{{$organization->rating}}</div>
                 </div>
             </div>
             <div class="info_li_organization">
-                <a href='{{route('organization.single',$organization->id)}}'class="title_li_organiaztion">Ритуальное агентство: {{$organization->title}}</a>
+                <a href='{{$organization->route()}}'class="title_li_organiaztion">Ритуальное агентство: {{$organization->title}}</a>
                 <div class="text_gray">{{$organization->name_type}}</div>
                 <div class="text_black">{{countReviewsOrganization($organization)}} оценки - Открыто до {{$organization->time_end_work}}</div>
             </div>
@@ -21,7 +21,7 @@
             </div>
             <div class="li_flex_btn_organization">
                 <a href='tel:{{$organization->phone}}'class="blue_btn">Позвонить</a>
-                <a href='{{route('organization.single',$organization->id)}}' class="btn_border_blue">Подробнее</a>
+                <a href='{{$organization->route()}}' class="btn_border_blue">Подробнее</a>
             </div>
             <div class="li_flex_icon_organization">
                 <a href="{{route('organization.like.add',$organization->id)}}"><img src="{{asset('storage/uploads/Vector (9).svg')}}" alt=""></a>

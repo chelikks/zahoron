@@ -523,10 +523,8 @@ function orgniaztionsFilters($data){
     if(isset($data['filter_work']) && $data['filter_work']!=null){
         if($data['filter_work']=='on'){
             $organizations_category_ids=$organizations_category->get()->map(function ($organization) {
-                $time=strtotime('10:00');
                 $organization_choose=$organization->organization();
-                // $time=strtotime(getTimeByCoordinates($organization_choose->width,$organization_choose->longitude)['current_time']);
-                if( strtotime($organization_choose->time_start_work)<$time &&  strtotime($organization_choose->time_end_work)>$time){
+                if( $organization_choose->openOrNot()=='Открыто'){
                     $organization->open=1;
                     return $organization;
                 }
@@ -534,7 +532,7 @@ function orgniaztionsFilters($data){
             $organizations_category=$organizations_category->whereIn('id',$organizations_category_ids->where('open',1)->pluck('id'));
         }  
     }
-    return $organizations_category->paginate(1);
+    return $organizations_category->paginate(15);
     
 }
 
@@ -560,10 +558,8 @@ function organizationsPrices($data){
     if(isset($data['filter_work']) && $data['filter_work']!=null){
         if($data['filter_work']=='on'){
             $organizations_prices_ids=$organizations_prices->get()->map(function ($organization) {
-                $time=strtotime('10:00');
                 $organization_choose=$organization->organization();
-                // $time=strtotime(getTimeByCoordinates($organization_choose->width,$organization_choose->longitude)['current_time']);
-                if( strtotime($organization_choose->time_start_work)<$time &&  strtotime($organization_choose->time_end_work)>$time){
+                if( $organization_choose->openOrNot()=='Открыто'){
                     $organization->open=1;
                     return $organization;
                 }
@@ -607,11 +603,11 @@ function getTimeByCoordinates($latitude, $longitude)
         $currentTime = new \DateTime("now", new \DateTimeZone($timezone));
 
         return [
+            'dayOfTheWeek'=>$currentTime->format('l'),
             'timezone' => $timezone,
             'current_time' => $currentTime->format('H:i'),
         ];
     }
-
     return null; // Обработка случая, когда данные не найдены
 }
 
@@ -651,10 +647,8 @@ function orgniaztionsProviderFilters($data){
     if(isset($data['filter_work']) && $data['filter_work']!=null){
         if($data['filter_work']=='on'){
             $organizations_category_ids=$organizations_category->get()->map(function ($organization) {
-                $time=strtotime('10:00');
                 $organization_choose=$organization->organization();
-                // $time=strtotime(getTimeByCoordinates($organization_choose->width,$organization_choose->longitude)['current_time']);
-                if( strtotime($organization_choose->time_start_work)<$time &&  strtotime($organization_choose->time_end_work)>$time){
+                if( $organization_choose->openOrNot()=='Открыто'){
                     $organization->open=1;
                     return $organization;
                 }
@@ -663,7 +657,7 @@ function orgniaztionsProviderFilters($data){
         }  
     }
 
-    return $organizations_category->paginate(1);
+    return $organizations_category->paginate(15);
 }
 
 
@@ -685,10 +679,7 @@ function organizationsProviderPrices($data){
         if($data['filter_work']=='on'){
             $organizations_prices_ids=$organizations_prices->get()->map(function ($organization) {
                 $organization_choose=$organization->organization();
-                // $time=strtotime(getTimeByCoordinates($organization_choose->width,$organization_choose->longitude)['current_time']);
-                $time=strtotime('10:00');
-
-                if( strtotime($organization_choose->time_start_work)<$time &&  strtotime($organization_choose->time_end_work)>$time){
+                if( $organization_choose->openOrNot()=='Открыто'){
                     $organization->open=1;
                     return $organization;
                 }
@@ -829,10 +820,6 @@ function allCemetery(){
 }
 
 
-
-
-
-
 function getCoordinatesCity($city){
     $apiKey='f85b1a2e01a144d496d767cb921c8b60';
     $client = new Client();
@@ -840,3 +827,10 @@ function getCoordinatesCity($city){
     return $data = json_decode($response->getBody(), true)['result'][0];
     
 }
+
+
+function randomProductsPlace(){
+    $products=Product::inRandomOrder()->where('city_id',selectCity()->id)->whereIn('category_id',[29,30])->get()->take(2);
+    return $products;
+}
+
