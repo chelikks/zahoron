@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Account\UserService;
 use App\Services\Order\OrderBurialService;

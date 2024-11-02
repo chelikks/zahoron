@@ -6,7 +6,7 @@ use App\Models\City;
 use App\Models\District;
 
 $cities_memorial=City::orderBy('title','asc')->get();
-$districts=District::orderBy('title','asc')->where('city_id',$cities_memorial[0]->id)->get();
+$districts=District::orderBy('title','asc')->where('city_id',selectCity()->id)->get();
 $user=null;
 if(Auth::check()){
     $user=Auth::user();
@@ -36,7 +36,7 @@ if(Auth::check()){
                             <div class="select"><select name="city_memorial" >
                                 @if(count($cities_memorial)>0)
                                     @foreach ($cities_memorial as $city_memorial)
-                                        <option value="{{$city_memorial->id}}">{{$city_memorial->title}}</option>
+                                    <option <?php if(selectCity()->id==$city_memorial->id){echo 'selected';}?> value="{{$city_memorial->id}}">{{$city_memorial->title}}</option>
                                     @endforeach
                                 @endif
                             </select></div>
@@ -97,7 +97,7 @@ if(Auth::check()){
                             </div> 
                             <div class="block_input">
                                 <label for="">Номер телефона</label>
-                                <input type="text" name='phone_memorial' placeholder="Номер телефона" <?php if($user!=null){echo 'value='.$user->phone;}?>>
+                                <input type="text" name="phone_memorial" id="" placeholder="Номер телефона" <?php if(isset($user)){if($user!=null){echo 'value="'.$user->phone.'"';}}?> >
                                 @error('phone_memorial')
                                     <div class='error-text'>{{ $message }}</div>
                                 @enderror

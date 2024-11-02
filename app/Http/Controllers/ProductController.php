@@ -9,8 +9,8 @@ use App\Services\Product\ProductService;
 
 class ProductController extends Controller
 {
-    public static function singleProduct($id){
-        return ProductService::singleProduct($id);
+    public static function singleProduct($slug){
+        return ProductService::singleProduct($slug);
     }
 
     public static function redirectToCategoryMarketplace(){

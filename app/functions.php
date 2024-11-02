@@ -13,6 +13,7 @@ use App\Models\StageService;
 use App\Models\AdditionProduct;
 use App\Models\Burial;
 use App\Models\CategoryProduct;
+use App\Models\CategoryProductPriceList;
 use App\Models\CategoryProductProvider;
 use App\Models\CommentProduct;
 use App\Models\FaqCategoryProduct;
@@ -48,6 +49,10 @@ function categoryProductProviderChoose(){
 
 function childrenCategoryProducts($cat){
     return CategoryProduct::orderBy('id','desc')->where('parent_id',$cat->id)->get();
+}
+
+function childrenCategoryProductsPriceList($cat){
+    return CategoryProductPriceList::orderBy('id','desc')->where('parent_id',$cat->id)->get();
 }
 
 function childrenCategoryProductsProvider($cat){
@@ -135,7 +140,8 @@ function insert_city_into_url($url, $kzn){
 }
 
 function filterProducts($data){
-    $products=Product::orderBy('id','desc');
+    $city=selectCity();
+    $products=Product::orderBy('id','desc')->where('city_id',$city->id);
     if(isset($data['sort'])){
         if($data['sort']!='Сортировка' && $data['sort']!='undefined'){
             if($data['sort']=='price_down'){
@@ -428,7 +434,7 @@ function priceAdditional($price){
 function addToCartProduct($id){
     $product=Product::find($id);
     if($product->category_id==46 || $product->category_id==47 || $product->category_id==32 || $product->category_id==33 || $product->category_id==34 || $product->category_id==35){
-        return '<a href="'.route('product.single',$id).'" class="blue_btn">'.'Оформить</a>';
+        return '<a href="'.$product->route().'" class="blue_btn">'.'Оформить</a>';
     }
     return '<div id_product="'. $product->id .'" class="blue_btn add_to_cart_product">Купить</div>';
 
@@ -823,8 +829,8 @@ function allCemetery(){
 function getCoordinatesCity($city){
     $apiKey='f85b1a2e01a144d496d767cb921c8b60';
     $client = new Client();
-    $response = $client->get("https://api.opencagedata.com/geocode/v1/json?q={$city}&key=f85b1a2e01a144d496d767cb921c8b60");
-    return $data = json_decode($response->getBody(), true)['result'][0];
+    $response = $client->get("https://api.opencagedata.com/geocode/v1/json?q=Город в россии {$city}&key=f85b1a2e01a144d496d767cb921c8b60");
+    return $data = json_decode($response->getBody(), true)['result'][0]['geometry'];
     
 }
 
@@ -833,4 +839,232 @@ function randomProductsPlace(){
     $products=Product::inRandomOrder()->where('city_id',selectCity()->id)->whereIn('category_id',[29,30])->get()->take(2);
     return $products;
 }
+
+
+
+function phoneImport($phone){
+    if($phone!=null){
+        return explode(':',$phone)[1];
+    }
+    return null;
+}
+
+
+
+function parseWorkingHours($input) {
+    // Массив с названиями дней недели
+    $days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    $daysEnglish = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    // Массив для хранения результатов
+    $result = [];
+
+    // Регулярное выражение для поиска форматов
+    if (preg_match('/([ПнВтСрЧтПтСбВс]+)(?:-([ПнВтСрЧтПтСбВс]+))?:\s*([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})/', $input, $matches)) {
+        // Формат "Пн-Вс: 09:00-17:00"
+        $startDay = array_search($matches[1], $days);
+        $endDay = array_search($matches[2], $days);
+        $startTime = $matches[3];
+        $endTime = $matches[4];
+
+        for ($i = $startDay; $i <= $endDay; $i++) {
+            $result[] = [
+                'day' => $daysEnglish[$i],
+                'time_start_work' => $startTime,
+                'time_end_work' => $endTime,
+            ];
+        }
+    } elseif (preg_match('/([ПнВтСрЧтПтСбВс]+):\s*([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})/', $input, $matches)) {
+        // Формат "Пн: 09:00-17:00"
+        $dayIndex = array_search($matches[1], $days);
+        $startTime = $matches[2];
+        $endTime = $matches[3];
+
+        $result[] = [
+            'day' => $daysEnglish[$dayIndex],
+            'time_start_work' => $startTime,
+            'time_end_work' => $endTime,
+        ];
+    } elseif (preg_match('/([ПнВтСрЧтПтСбВс]+):\s*(Выходной)/', $input, $matches)) {
+        // Формат "Пн: Выходной"
+        $dayIndex = array_search($matches[1], $days);
+        $result[] = [
+            'day' => $daysEnglish[$dayIndex],
+            'time_start_work' => 'Выходной',
+            'time_end_work' => 'Выходной',
+        ];
+    }
+
+    return $result;
+}
+
+
+
+function extractServiceNames($html) {
+    // Создаем новый объект DOMDocument
+    $dom = new DOMDocument();
+
+    // Устанавливаем параметр для игнорирования ошибок
+    libxml_use_internal_errors(true);
+    
+    // Загружаем HTML-код и устанавливаем правильную кодировку
+    $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+    $dom->loadHTML($html);
+    libxml_clear_errors();
+    
+    // Находим все <li> элементы
+    $items = $dom->getElementsByTagName('li');
+    
+    $result = [];
+    
+    // Проходим по каждому элементу <li>
+    foreach ($items as $item) {
+        // Извлекаем текст из <strong> и удаляем двоеточие
+        $strongText = $item->getElementsByTagName('strong')->item(0)->textContent ?? '';
+        
+        // Добавляем название услуги в массив, удаляя лишние пробелы
+        $result[] = trim(rtrim($strongText, ':'));
+    }
+    
+    return $result;
+}
+
+
+
+function createCity($city_name,$edge_name){
+
+    if($city_name==null || $edge_name==null){
+        return null;
+    }
+
+    $city=City::where('title',$city_name)->first();
+    $edge=Edge::where('title',$edge_name)->first();
+
+    if($edge==null){
+        $edge=Edge::create([
+            'title'=>$edge_name,
+        ]);
+    }
+    if($city==null){
+        $city=City::create([
+            'title'=>$city_name,
+            'slug'=>slug($city_name),
+            'edge_id'=> $edge->id,
+            
+        ]);
+    }
+    return $city;
+
+}
+
+function priceSerivce($price){
+    if($price==null ){
+        return 'Не указано';
+    }
+    elseif($price==0){
+        return 'Бесплатно';
+    }
+                        
+    else{
+        return "{$price} ₽";
+    }
+}
+
+
+function extractServices($html) {
+    $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
+    // Паттерны для извлечения услуг и цен
+    $paidServicesPattern = '/<h2>Платные услуги морга:<\/h2>.*?<ul>(.*?)<\/ul>/s';
+    $freeServicesPattern = '/<h2>Бесплатные услуги морга:<\/h2>.*?<ul>(.*?)<\/ul>/s';
+
+    preg_match($paidServicesPattern, $html, $paidMatches);
+    preg_match($freeServicesPattern, $html, $freeMatches);
+
+    $services = [];
+
+    // Обработка платных услуг
+    if (!empty($paidMatches)) {
+        $dom = new DOMDocument();
+        @$dom->loadHTML($paidMatches[1]);
+        $paidItems = $dom->getElementsByTagName('li');
+
+        foreach ($paidItems as $item) {
+            $serviceName = trim($item->nodeValue);
+            $services[] = [$serviceName, 3000]; // Примерная цена для платных услуг
+        }
+    }
+
+    // Обработка бесплатных услуг
+    if (!empty($freeMatches)) {
+        $dom = new DOMDocument();
+        @$dom->loadHTML($freeMatches[1]);
+        $freeItems = $dom->getElementsByTagName('li');
+
+        foreach ($freeItems as $item) {
+            $serviceName = trim($item->nodeValue);
+            $services[] = [$serviceName, 0]; // Бесплатные услуги имеют цену 0
+        }
+    }
+
+    return $services;
+}
+
+function convertPriceToNumber($priceString)
+{
+    // Убираем ненужные символы: "от", пробелы и слово "рублей"
+    $price = preg_replace('/[^0-9]/', '', $priceString);
+    
+    // Приводим к целому числу
+    return (int)$price;
+}
+
+
+function parsePricesTable($html)
+{
+    // Загружаем HTML
+    $dom = new \DOMDocument();
+    $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+    // Избавляемся от возможных ошибок в HTML
+    @$dom->loadHTML($html);
+    
+    // Ищем таблицу
+    $table = $dom->getElementsByTagName('table')->item(0);
+    
+    // Инициализируем массив для хранения результатов
+    $prices = [];
+    if($table!=null ){
+        foreach ($table->getElementsByTagName('tr') as $row) {
+            $cells = $row->getElementsByTagName('td');
+            
+            // Если ячейка есть, добавляем в массив
+            if ($cells->length > 0) {
+                $serviceName = trim($cells->item(0)->nodeValue);
+                $price=convertPriceToNumber(trim($cells->item(1)->nodeValue));
+                $prices[] = [$serviceName, $price];
+                
+            }
+        }
+    }
+    
+
+    return $prices;
+}
+
+
+function translateDayOfWeek($day)
+{
+    $daysOfWeek = [
+        'Monday' => 'Пн',
+        'Tuesday' => 'Вт',
+        'Wednesday' => 'Ср',
+        'Thursday' => 'Чт',
+        'Friday' => 'Пт',
+        'Saturday' => 'Сб',
+        'Sunday' => 'Вс'
+    ];
+
+    return $daysOfWeek[$day];
+}
+
 

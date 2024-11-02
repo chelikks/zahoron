@@ -1,7 +1,5 @@
 <?php
 use App\Models\Product;
-use App\Models\Organization;
-use App\Models\ImageProduct;
  $city=selectCity();
  $products_funeral_service=Product::where('city_id', $city->id)->whereIn('category_id',[32,33,34,35])->get();
 ?>
@@ -22,9 +20,9 @@ use App\Models\ImageProduct;
                                     <img class='img_market_product' src="{{ asset('storage/uploads_product/'.$images[0]->title) }}" alt="">
                                 @endif
                             @endif
-                            <a href='{{ route('product.single',$product_funeral_service->id) }}'class="title_news">{{ $product_funeral_service->title }}</a>
+                            <a href='{{$product_funeral_service->route() }}'class="title_news">{{ $product_funeral_service->title }}</a>
                            <div class="text_li">
-                            <?php $organization=Organization::find($product_funeral_service->organization_id);?>
+                            <?php $organization=$product_funeral_service->organization();?>
                             {{$organization->title}}
                            </div>
                             <div class="flex_monuments_grave">
@@ -45,7 +43,7 @@ use App\Models\ImageProduct;
 @endif
 
 
-<script>
+{{-- <script>
     $( ".add_to_cart_product" ).on( "click", function() {
     let this_btn=$(this)
     let id_product= $(this).attr('id_product');
@@ -75,4 +73,4 @@ use App\Models\ImageProduct;
     
 
 });
-</script>
+</script> --}}

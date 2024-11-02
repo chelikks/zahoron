@@ -12,7 +12,7 @@
             <div class="info_li_organization">
                 <a href='{{$organization->route()}}'class="title_li_organiaztion">Ритуальное агентство: {{$organization->title}}</a>
                 <div class="text_gray">{{$organization->name_type}}</div>
-                <div class="text_black">{{countReviewsOrganization($organization)}} оценки - Открыто до {{$organization->time_end_work}}</div>
+                <div class="text_black">{{countReviewsOrganization($organization)}} оценки - {{$organization->timeEndWorkingNow()}}</div>
             </div>
             <div class="li_price_category_organization">
                 <?php $category_organiaztion=$organization_category->categoryProduct();?>

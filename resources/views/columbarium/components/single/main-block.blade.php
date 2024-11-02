@@ -22,7 +22,12 @@
                 
             </div>
             <div class="flex_info_main_single_organization margin_top_single_organization">
-                <div class="text_black text_flex"><img src="{{asset('storage/uploads/mdi_clock-outline.svg')}}" alt="">{{$columbarium->time_start_work}}-{{$columbarium->time_end_work}}</div>
+                <div class="text_black text_flex block_time_working">
+                    <img src="{{asset('storage/uploads/mdi_clock-outline.svg')}}" alt="">{{$columbarium->timeNow()}} <img title="Открыть дни работы" class='open_working_times'src="{{asset('storage/uploads/arrow-down-svgrepo-com.svg')}}" alt="">
+                    <div class="ul_working_days">
+                        {!!$columbarium->ulWorkingDays()!!}
+                    </div>
+                </div>
                 <div class="text_black">{{$columbarium->adres}}</div>
             </div>
             <div class="flex_info_main_single_organization">

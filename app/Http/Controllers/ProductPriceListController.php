@@ -17,8 +17,8 @@ class ProductPriceListController extends Controller
         return ProductPriceListService::serviceCategory($slug);
     }
 
-    public static function singleProduct($id){
-        return ProductPriceListService::singleProduct($id);
+    public static function singleProduct($slug){
+        return ProductPriceListService::singleProduct($slug);
     }
     
     public static function ajaxProducts(Request $request){

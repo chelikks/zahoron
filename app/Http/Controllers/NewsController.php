@@ -12,8 +12,8 @@ class NewsController extends Controller
     public static function index(){
         return IndexNews::index();
     }
-    public static function singleNews($id){
-       return IndexNews::singleNews($id);
+    public static function singleNews($slug){
+       return IndexNews::singleNews($slug);
     }
 
     public static function newsCat($id){

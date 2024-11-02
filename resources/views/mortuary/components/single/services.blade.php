@@ -7,11 +7,8 @@
                     <div class="item_memorial_menu item_memorial_menu_1 text_black">{{$service->title}}</div>
                     <div class="line_gray_menu"></div>
                     <div class="item_memorial_menu text_blue_bold"> 
-                        @if($service->price==null || $service->price==0)
-                            Бесплатно
-                        @else
-                            {{$service->price}} ₽
-                        @endif
+                        {{priceSerivce($service->price)}}
+
                     </div>
                 </div>
             @endforeach

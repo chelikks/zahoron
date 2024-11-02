@@ -1,6 +1,5 @@
 <?php
 use App\Models\Product;
-use App\Models\Organization;
 
  $city=selectCity();
  $products_memorial_dinners=Product::where('city_id', $city->id)->where('category_id',46)->get();
@@ -17,7 +16,7 @@ use App\Models\Organization;
                     <div class="swiper-slide">
                         <div class="li_memorial_dinner">
                             <div class="flex_info_memorial_dinner">
-                                <?php $organization=Organization::find($product_memorial_dinner->organization_id);?>
+                                <?php $organization=$product_memorial_dinner->organization();?>
 
                                 <img src="{{$organization->urlImg()}}" alt="">
                                 <div class="content_memorial_dinner">
@@ -32,7 +31,7 @@ use App\Models\Organization;
                             <div class="title_memorial_dinner">{{$product_memorial_dinner->price}} ₽</div>
                             <div class="grid_btn">
                                 <div id_product={{$product_memorial_dinner->id}} class="blue_btn border_radius_btn add_to_cart_product" >Оформить</div>
-                                <a href='{{route('product.single',$product_memorial_dinner->id)}}'class="gray_btn">Подробнее</A>
+                                <a href='{{$product_memorial_dinner->route()}}'class="gray_btn">Подробнее</A>
                             </div>
                         </div>
                     </div>
@@ -61,7 +60,7 @@ use App\Models\Organization;
             if(result['error']){
                 alert(result['error'])
             }else{
-                this_btn.html('Оформить <img src="{{asset("storage/uploads/done-v-svgrepo-com.svg")}}">')
+                this_btn.html('Купить еще <img src="{{asset("storage/uploads/done-v-svgrepo-com.svg")}}">')
                 let price= Number($('.blue_block_all_price span').html())+Number(result['price'])
                 $('.blue_block_all_price span').html(price)
                 

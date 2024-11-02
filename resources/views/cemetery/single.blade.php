@@ -41,11 +41,11 @@
                     @if($cemetery->content!=null)
                         <div class="block_content_organization_single">
                             <div class="title_li title_li_organization_single">О нас</div>
-                                <div class="text_black">
-                                    <div class="content_not_all">{!!custom_echo($cemetery->content,450)!!}</div>
-                                    <div class="content_all">{!!$cemetery->content!!}</div>
-                                </div>
+                            <div class="text_black">
+                                <div class="content_not_all">{!!custom_echo($cemetery->content,450)!!}</div>
+                                <div class="content_all">{!!$cemetery->content!!}</div>
                             </div>
+                        </div>
                     @endif
                     {{view('cemetery.components.single.specifications',compact('cemetery'))}}
 
@@ -68,6 +68,7 @@
                     
 
                 </div>
+                
 
                 <div id_block=2  id='block_prices' class="flex_block_single_organization">
                     {{view('cemetery.components.single.services',compact('services','cemetery','city'))}}

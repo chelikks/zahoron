@@ -13,11 +13,11 @@ $cats=CategoryProduct::orderBy('id','desc')->where('parent_id',null)->get();
                     @foreach ($cats as $cat)
                         <div class="li_cat_product">
                             <div class="title_news">{{ $cat->title }}</div>
-                            <?php $cats_children=CategoryProduct::orderBy('id','desc')->where('parent_id',$cat->id)->get();?>
+                            <?php $cats_children=childrenCategoryProducts($cat);?>
                             @if (count($cats_children)>0)
                                 <div class="ul_children_cat_product">
                                     @foreach ($cats_children as $cat_children)
-                                        <a href="/marketplace?category={{ $cat_children->id }}" class="title_label li_cat_children_product">{{ $cat_children->title }}</a>
+                                        <a href="{{ route('marketplace.category',$cat_children->slug) }}" class="title_label li_cat_children_product">{{ $cat_children->title }}</a>
                                     @endforeach
 
                                 </div>    

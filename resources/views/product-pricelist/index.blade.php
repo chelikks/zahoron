@@ -21,7 +21,7 @@
                         @foreach ($services as $service )
                             <div class="li_service">
                                 <div class="flex_li_service">
-                                    <a href='{{route('pricelist.single',$service->id)}}'class="title_li decoration_on">{{ $service->title }}</a>
+                                    <a href='{{route('pricelist.single',$service->slug)}}'class="title_li decoration_on">{{ $service->title }}</a>
                                     <div class="title_li">от {{ $service->price }} ₽</div>
                                 </div>
                                 <div class="text_li">{{ $service->excerpt }}</div>
@@ -35,15 +35,29 @@
             <div class="btn_border_blue" data-bs-toggle="modal" data-bs-target="#beautification_form"><img src="{{asset('storage/uploads/Frame (20).svg')}}" alt="">Облагородить могилу</div>
             <div class="cats_news">
                 <div class="title_news">Категории товаров и услуг</div>
-                <div class="ul_cats_news">
-                    @if (isset($cats))
-                        @if (count($cats)>0)
-                            @foreach ($cats as $cat )
-                                <a href='{{ $cat->route() }}'class="li_cat_news <?php if(isset($cat_selected)){if($cat->id==$cat_selected->id){ echo 'active_cat';}}?>"><img src="{{asset('storage/uploads_cats_product_price_list/'. $cat->icon )}}" alt="{{ $cat->title }}"> {{ $cat->title }}</a>
-                            @endforeach 
+
+                <div class="ul_cats_marketplace">
+                    @if(isset($cats))
+                        @if($cats->count()>0)
+                            @foreach ($cats as $cat)
+                                <div class="main_cat">
+            
+                                    <div id_category='{{ $cat->id }}' class="li_cat_main_marketplace"><img class='icon_black'src="{{ asset('storage/uploads_cats_product_price_list/'.$cat->icon) }}" alt=""> <img class='icon_white'src="{{ asset('storage/uploads_cats_product_price_list/'.$cat->icon_white) }}" alt="">{{ $cat->title }}</div>
+                                    <?php $cats_children=childrenCategoryProductsPriceList($cat);?>
+                                    @if (count($cats_children)>0)
+                                        <ul class="ul_childern_cats_marketplace">
+                                            @foreach ($cats_children as $cat_children)
+                                                <li class='li_cat_children_marketplace <?php if(isset($cat_selected) && $cat_selected!=null){if($cat_selected->id==$cat_children->id){echo 'active_category';}}?>'><a href='{{ $cat_children->route() }}' >{{ $cat_children->title }}</a></li>
+                                            @endforeach
+                                        </ul>    
+                                    @endif
+                                    
+                                </div>
+                            @endforeach
                         @endif
                     @endif
                 </div>
+                
             </div>
         </div>
     </div>

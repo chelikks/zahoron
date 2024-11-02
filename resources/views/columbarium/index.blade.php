@@ -11,7 +11,9 @@
 </section>
 
 
-<div id="map" style="width: 100%; height: 600px"></div>
+<div class="container">
+    <div id="map" style="width: 100%; height: 600px"></div>
+</div>
 
 <section class="cemetery">
     <div class="container">
@@ -52,9 +54,8 @@
 
 @include('components.rating-uneral-bureaus-raves-prices')
 
-@include('components.rating-uneral-bureaus-raves-prices')
 
-@include('mortuary.components.cities-places') 
+@include('columbarium.components.cities-places') 
 
 <script>
     ymaps.ready(init);

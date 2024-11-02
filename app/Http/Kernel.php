@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AgencyMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use App\Http\Middleware\AgentMiddleware;
@@ -72,6 +73,7 @@ class Kernel extends HttpKernel
         'user'=>UserMiddleware::class,
         'organization'=>AgencyMiddleware::class,
         'decoder'=>DecoderMiddleware::class,
+        'admin'=>AdminMiddleware::class,
 
     ];
 }

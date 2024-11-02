@@ -11,7 +11,7 @@
             @foreach($similar_organizations as $similar_organization)
                 <div class="swiper-slide">
                     <div class="li_organization_similar">
-                        <img class='logo_organization_similar'src="{{asset('storage/uploads_organization/'.$similar_organization->logo)}}" alt="">
+                        <img class='logo_organization_similar'src="{{asset($similar_organization->urlImg())}}" alt="">
                         <a href='{{$similar_organization->route()}}'class="title_news">{{$similar_organization->title}} </a>
                         <div class="flex_stars">
                             <img src="{{asset('storage/uploads/Frame 334.svg')}}" alt="">

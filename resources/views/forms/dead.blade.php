@@ -6,7 +6,7 @@ use App\Models\City;
 use App\Models\Mortuary;
 
 $cities_dead=City::orderBy('title','asc')->get();
-$mortuaries=Mortuary::orderBy('title','asc')->where('city_id',$cities_dead[0]->id)->get();
+$mortuaries=Mortuary::orderBy('title','asc')->where('city_id',selectCity()->id)->get();
 $user=null;
 if(Auth::check()){
     $user=Auth::user();
@@ -35,7 +35,7 @@ if(Auth::check()){
                             <div class="select"><select name="city_dead" >
                                 @if(count($cities_dead)>0)
                                     @foreach ($cities_dead as $city_dead)
-                                        <option value="{{$city_dead->id}}">{{$city_dead->title}}</option>
+                                        <option <?php if(selectCity()->id==$city_dead->id){echo 'selected';}?> value="{{$city_dead->id}}">{{$city_dead->title}}</option>
                                     @endforeach
                                 @endif
                             </select></div>
@@ -72,7 +72,7 @@ if(Auth::check()){
                             </div> 
                             <div class="block_input">
                                 <label for="">Номер телефона</label>
-                                <input type="text" name='phone_dead' placeholder="Номер телефона" <?php if($user!=null){echo 'value='.$user->phone;}?>>
+                                <input type="text" name="phone_dead" id="" placeholder="Номер телефона" <?php if(isset($user)){if($user!=null){echo 'value="'.$user->phone.'"';}}?> >
                                 @error('phone_dead')
                                     <div class='error-text'>{{ $message }}</div>
                                 @enderror

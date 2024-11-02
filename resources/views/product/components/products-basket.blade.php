@@ -28,7 +28,7 @@ use App\Models\AdditionProduct;
                                     @endif
                                 </div>
                                 <div class="content_product_cart">
-                                    <a href='{{ route('product.single',$product->id) }}'class="title_product_market">{{ $product->title }}</a>
+                                    <a href='{{ $product->route() }}'class="title_product_market">{{ $product->title }}</a>
                                     @if($cart_item[3]!='')
                                         <div class="text_li color_black">Размер {{ $cart_item[3] }} </div>
                                     @endif

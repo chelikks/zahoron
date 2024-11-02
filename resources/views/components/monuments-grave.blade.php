@@ -1,6 +1,5 @@
 <?php
 use App\Models\Product;
-use App\Models\ImageProduct;
  $city=selectCity();
  $products_monuments_grave=Product::where('city_id', $city->id)->where('category_id',29)->get();
 ?>
@@ -15,13 +14,13 @@ use App\Models\ImageProduct;
                 @foreach($products_monuments_grave as $product_monuments_grave)
                     <div class="swiper-slide">
                         <div class="li_product_monuments_grave">
-                            <?php $images=ImageProduct::where('product_id',$product_monuments_grave->id)->get();?>
+                            <?php $images=$product_monuments_grave->getImages();?>
                             @if (isset($images))
                                 @if (count($images)>0)
                                     <img class='img_market_product' src="{{ asset('storage/uploads_product/'.$images[0]->title) }}" alt="">
                                 @endif
                             @endif
-                            <a href='{{ route('product.single',$product_monuments_grave->id) }}'class="title_news">{{ $product_monuments_grave->title }}</a>
+                            <a href='{{ $product_monuments_grave->route() }}'class="title_news">{{ $product_monuments_grave->title }}</a>
                             <div class="mini_text_product">
                                 Размер от {{ explode('|',$product_monuments_grave->size)[0] }}. {{ $product_monuments_grave->material }}.
                             </div>
@@ -58,7 +57,7 @@ use App\Models\ImageProduct;
             if(result['error']){
                 alert(result['error'])
             }else{
-                this_btn.html('Оформить <img src="{{asset("storage/uploads/done-v-svgrepo-com.svg")}}">')
+                this_btn.html('Купить еще <img src="{{asset("storage/uploads/done-v-svgrepo-com.svg")}}">')
                 let price= Number($('.blue_block_all_price span').html())+Number(result['price'])
                 $('.blue_block_all_price span').html(price)
                 

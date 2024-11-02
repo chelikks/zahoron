@@ -796,3 +796,8 @@ let addZoom = target => {
   }
 };
 
+
+$(".open_working_times").click(function() {
+  $('.ul_working_days').slideToggle(200)
+  $(this).toggleClass('rotate_arrow_open')
+});

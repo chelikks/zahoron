@@ -1,7 +1,5 @@
 <?php
 use App\Models\Product;
-use App\Models\Organization;
-use App\Models\ImageProduct;
  $city=selectCity();
  $products_memorial_hall=Product::where('city_id', $city->id)->where('category_id',47)->get();
 ?>
@@ -16,7 +14,7 @@ use App\Models\ImageProduct;
                 @foreach($products_memorial_hall as $product_memorial_hall)
                     <div class="swiper-slide">
                         <div class="li_memorial_hall">
-                            <?php $images=ImageProduct::where('product_id',$product_memorial_hall->id)->get();?>
+                            <?php $images=$product_memorial_hall->getImages();?>
                             @if (isset($images))
                                 @if (count($images)>0)
                                     <img class='img_memorial_hall' src="{{ asset('storage/uploads_product/'.$images[0]->title) }}" alt="">
@@ -24,10 +22,10 @@ use App\Models\ImageProduct;
                             @endif
                             <div class="grid_two">
                                 <div class="flex_info_hall">
-                                    <?php $organization=Organization::find($product_memorial_hall->organization_id);?>
+                                    <?php $organization=$product_memorial_hall->organization();?>
                                     <img src="{{$organization->urlImg()}}" alt="">
                                     <div class="flex_hall">
-                                        <a href='{{route('product.single',$product_memorial_hall->id)}}' class="title_memorial_hall">{{$product_memorial_hall->title}}</a>
+                                        <a href='{{$product_memorial_hall->route()}}' class="title_memorial_hall">{{$product_memorial_hall->title}}</a>
                                         <div class="flex_monuments_grave">
                                             <div class="raiting_memorial_dinner">
                                                 <img src="{{asset('storage/uploads/Star 1 copy.svg')}}" alt="">5
@@ -67,7 +65,7 @@ use App\Models\ImageProduct;
             if(result['error']){
                 alert(result['error'])
             }else{
-                this_btn.html('Оформить <img src="{{asset("storage/uploads/done-v-svgrepo-com.svg")}}">')
+                this_btn.html('Купить еще <img src="{{asset("storage/uploads/done-v-svgrepo-com.svg")}}">')
                 let price= Number($('.blue_block_all_price span').html())+Number(result['price'])
                 $('.blue_block_all_price span').html(price)
                 

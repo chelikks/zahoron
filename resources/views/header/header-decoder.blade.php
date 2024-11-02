@@ -25,7 +25,7 @@
 
 
 <header class='header_decoder'>
-    <a class='logo' href='/'>
+    <a class='logo' href='{{route('index')}}'>
         <img src='{{asset('storage/uploads/zahoron.svg')}}'>
     </a>
     

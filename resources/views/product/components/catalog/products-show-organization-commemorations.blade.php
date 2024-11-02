@@ -9,7 +9,7 @@
                             <img class='img_market_product' src="{{ asset('storage/uploads_product/'.$images[0]->title) }}" alt="">
                         @endif
                     @endif
-                    <a href='{{ route('product.single',$product->id) }}'class="title_product_market">{{ $product->title }}</a>
+                    <a href='{{ $product->route() }}'class="title_product_market">{{ $product->title }}</a>
                     
                     <div>
                         <div class="text_gray">{{$product->cafe}}</div>

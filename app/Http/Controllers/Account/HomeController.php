@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
+use App\Services\Account\Admin\AdminService as AdminAdminService;
+use App\Services\Account\AdminService;
 use App\Services\Account\AgencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Account\UserService;
 use App\Services\Account\AgentService;
 use App\Services\Account\DecoderService;
-use App\Services\Account\OrganizationService;
 
 class HomeController extends Controller
 {
@@ -38,6 +40,10 @@ class HomeController extends Controller
         }
         elseif(Auth::user()->role=='decoder'){
             return DecoderService::index();
+        }
+
+        elseif(Auth::user()->role=='admin'){
+            return AdminAdminService::index();
         }
         return UserService::index();
     }

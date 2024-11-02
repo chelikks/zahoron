@@ -1,20 +1,15 @@
-
-<?php 
-    use App\Models\Organization;
-    use App\Models\ImageProduct;
-?>
 @if(count($category_products))
     <div class="ul_products">
         @foreach($category_products as $category_product)
             <div class="li_product_market">
-                <?php $images=ImageProduct::where('product_id',$category_product->id)->get();?>
+                <?php $images=$category_product->getImages();?>
                     @if (isset($images))
                         @if (count($images)>0)
                             <img class='img_market_product' src="{{ asset('storage/uploads_product/'.$images[0]->title) }}" alt="">
                         @endif
                     @endif
-                    <a href='{{ route('product.single',$category_product->id) }}'class="title_product_market">{{ $category_product->title }}</a>
-                    <?php $organization_product=Organization::find($category_product->organization_id);?>
+                    <a href='{{ $category_product->route() }}'class="title_product_market">{{ $category_product->title }}</a>
+                    <?php $organization_product=$category_product->organization();?>
                     <div class="flex_raiting">
                         <div class="text_gray_mini">{{$organization_product->title}}</div>
                         <div class="flex_stars">

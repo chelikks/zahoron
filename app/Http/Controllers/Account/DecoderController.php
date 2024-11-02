@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
 use App\Services\Account\DecoderService;
 use Illuminate\Http\Request;
 

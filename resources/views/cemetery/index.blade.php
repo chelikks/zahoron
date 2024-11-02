@@ -10,8 +10,9 @@
     </div>
 </section>
 
-
-<div id="map" style="width: 100%; height: 600px"></div>
+<div class="container">
+    <div id="map" style="width: 100%; height: 600px"></div>
+</div>
 
 <section class="cemetery">
     <div class="container">
@@ -30,7 +31,7 @@
                     @endforeach
                 @endif
             </div>
-            {{view('mortuary.components.sidebar',compact('products'))}}
+            {{view('cemetery.components.sidebar',compact('products'))}}
         </div>
 
 
@@ -51,9 +52,7 @@
 
 @include('components.rating-uneral-bureaus-raves-prices')
 
-@include('components.rating-uneral-bureaus-raves-prices')
-
-@include('mortuary.components.cities-places') 
+@include('cemetery.components.cities-places') 
 
 <script >
     ymaps.ready(init);

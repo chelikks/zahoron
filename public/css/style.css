@@ -564,9 +564,14 @@ margin-bottom: 20px;
  }
  .li_news{
     min-height: 370px;
+    transition: all ease-in-out 0.2s;
      padding: 25px;
      border: 1px solid #E9E8EA;
  
+ }
+ .li_news:hover,.grid_two_page .li_service:hover{
+    box-shadow: 4px 4px 8px -2px rgba(34, 60, 80, 0.2);
+
  }
  .li_news img{
      width: 100%;
@@ -768,6 +773,7 @@ margin-bottom: 20px;
     gap: 20px;
 }
 .grid_two_page .li_service{
+    transition: all ease-in-out 0.2s;
     border: 1px solid #E9E8EA;
 }
 
@@ -2782,15 +2788,16 @@ text-align: left;
 }
 .li_product_market{
     display: flex;
-    min-height: 411px;
+    min-height: 341px;
     flex-direction: column;
     border: 1px solid #F7F7F8;
     padding: 10px 8px 10px 8px;
 }
 .img_market_product{
     width: 100%;
-    max-height: 200px;
+    max-height: 166px;
     height: 100%;
+    object-fit: cover;
     padding-bottom:20px ;
 }
 .filter_block_organization select.active_select_filter_organiaztion{
@@ -3832,6 +3839,13 @@ line-height: 24px;
 text-align: left;
 
 }
+
+.text_black h2{
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
 .text_gray,.item_memorial_menu.text_gray{
     color: #808080;
 }
@@ -3923,7 +3937,7 @@ left: 15px;
 .li_product_monuments_grave{
     padding: 10px;
     display: flex;
-    min-height: 320px;
+    min-height: 340px;
     flex-direction: column;
     gap: 10px;
     background: #F7F7F8;
@@ -4223,18 +4237,34 @@ text-align: left;
 }
 .logo_organization_single img{
     width: 100%;
-    max-height: 177px;
+    object-fit: cover;
+    height: 177px;
 }
 .logo_organization_single .blue_btn{
     position: absolute;
     cursor: auto;
-    bottom: -40px;
+    top: 100%;
     left: 0;
     width: 100%;
 }
 .organization_single{
     padding: 40px 0px;
 }
+
+.text_black table{
+    width: 100%;
+    margin: 10px;
+   
+}
+
+.text_black table tr, .text_black table th{
+    border: 1px solid #CACACA;
+}
+
+.text_black table td{
+    padding: 10px;
+}
+
 .content_main_block_organization_single{
 
 }
@@ -4428,6 +4458,7 @@ margin-top: 20px;
 .block_content_organization_single .item_memorial_menu_1{
     padding-right: 10px;
     padding-left: 0px;
+    text-align: start;
 }
 .block_content_organization_single .li_memorial_menu .line_gray_menu{
     position: absolute;
@@ -4830,6 +4861,8 @@ text-align: left;
 .block_table_price_orgniaztions table{
     width: 100%;
     margin-bottom: 10px;
+    box-shadow: 4px 4px 8px -3px rgba(34, 60, 80, 0.2);
+
 }
 .block_table_price_orgniaztions td,.block_table_price_orgniaztions th{
     padding: 15px;
@@ -4925,8 +4958,13 @@ background: #F7F7F8;
     display: flex;
     justify-content: space-between;
     gap: 20px;
+    transition: all ease-in-out 0.2s;
+    box-shadow: 4px 4px 8px -3px rgba(34, 60, 80, 0.2);
     min-height: 150px;
     padding: 20px;
+}
+.li_organization:hover{
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 .li_organization_similar{
     display: flex;
@@ -4935,6 +4973,8 @@ background: #F7F7F8;
 }
 .li_organization_similar .logo_organization_similar{
     width: 100%;
+    height: 240px;
+    object-fit: cover;
 }
 .li_organization_similar .title_news{
     margin: 0px;
@@ -5154,7 +5194,13 @@ margin: 0 auto;
 
 .li_organization_provider{
     padding: 30px;
+    transition: all ease-in-out 0.2s;
+    box-shadow: 4px 4px 8px -3px rgba(34, 60, 80, 0.2);
     border: 1px solid #E9E8EA;
+}
+
+.li_organization_provider:hover{
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
 .li_provider_flex{
@@ -5661,10 +5707,15 @@ text-align: left;
 .li_place{
     padding: 20px;
     display: flex;
+    transition: all ease-in-out 0.2s;
     gap: 20px;
     align-items: start;
     border: 1px solid #E9E8EA;
 }
+.li_place:hover{
+    box-shadow: 4px 4px 8px -3px rgba(34, 60, 80, 0.2);
+}
+
 .img_place img{
     max-width: 104px;
     object-fit: cover;
@@ -5737,12 +5788,25 @@ text-align: left;
 
 .li_city_place:hover{
     color: #0080D7;
+    border-color: #0080D7;
 }
 
 .li_city_place:hover .line_blue_place{
     display: block;
 
 }
+.blue_icon_city_place{
+    display: none;
+}
+
+.li_city_place:hover .white_icon_city_place{
+    display: none;
+}
+
+.li_city_place:hover .blue_icon_city_place{
+    display: block;
+}
+
 
 
 .sidebar_place .blue_btn{
@@ -5767,4 +5831,65 @@ width: auto;
 .flex_info_hall img{
     max-width: 70px;
     width: 100%;
+}
+
+.default_admin_form{
+    padding: 20px;
+    border: 1px solid #CACACA;
+    margin: 30px 0px;
+    border-radius: 10px;
+}
+
+
+.open_working_times{
+    width: 23px;
+    cursor: pointer;
+    transition: all ease-in-out 0.2s;
+    margin-left: 0px;
+}
+.block_time_working{
+    position: relative;
+}
+.ul_working_days{
+    position: absolute;
+    top: 120%;
+    z-index: 2;
+    left: 0;
+    display: none;
+    overflow: hidden;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    
+}
+.rotate_arrow_open{
+    transform: rotate(180deg);
+}
+.li_working_day{
+    padding: 10px;
+    border-left: 5px solid white;
+    transition: all ease-in-out 0.2s;
+}
+.li_working_day_active,.li_working_day:hover{
+    color: #0080D7;
+    background: #F1F1F199;
+    border-left: 5px solid #0080D7;
+}
+
+.li_product_monuments_grave .flex_monuments_grave{
+    margin-top: auto;
+}
+
+.admin_table{ 
+    margin: 40px 0px;
+}
+.admin_table td{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.admin_table th{
+    font-size: 18px;
+    font-weight: 500;
 }

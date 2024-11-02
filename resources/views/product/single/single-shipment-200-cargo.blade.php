@@ -19,7 +19,7 @@
             <a href="/">Главная</a>/<a href="{{ route('marketplace') }}">Маркетплейс</a>/
             @if(isset($category))
                 @if($category!=null)
-                    <a href="/marketplace?cemetery_id=1&category={{ $category->id }}&color=Цвет&sort=Сортировка&material=Материал&size=Размер">{{ $category->title }}</a>/
+                    <a href="{{ route('marketplace.category',$category->slug) }}">{{ $category->title }}</a>/
                 @endif
             @endif
             <span>{{ $product->title }}</span>
@@ -81,7 +81,7 @@
                     {{view('product.components.single.sales',compact('sales'))}}
 
                     <div class="strong_gray_text">
-                        Партнёр: <a href='{{route('organization.single',$organization->id)}}'class="blue_mini_text">{{$organization->title}}</a>
+                        Партнёр: <a href='{{$organization->route()}}'class="blue_mini_text">{{$organization->title}}</a>
                     </div>
                     <div class="title_rewies">ОГРН {{$agent->ogrn}}</div>
                     <div class="flex_main_price">

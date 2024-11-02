@@ -121,8 +121,8 @@
                 </div>
                 <div class="flex_btn">
                     <div class="blue_btn border_radius_btn" data-bs-toggle="modal" data-bs-target="#beautification_form">Запрос цен</div>
-                    <a href='/marketplace?category=29'class="blue_btn border_radius_btn">Памятники</a>
-                    <a href='/marketplace?category=30'class="blue_btn border_radius_btn">Оградки</a>
+                    <a href='{{route('marketplace.category','pamatniki')}}'class="blue_btn border_radius_btn">Памятники</a>
+                    <a href='{{route('marketplace.category','ogradki')}}'class="blue_btn border_radius_btn">Оградки</a>
                 </div>
             </div>
         

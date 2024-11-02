@@ -3,13 +3,21 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\AgentController;
+
+
+use App\Http\Controllers\Account\AgentController;
+use App\Http\Controllers\Account\AgencyController;
+use App\Http\Controllers\Account\DecoderController;
+use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Account\Admin\AdminRitualObjectsController;
+use App\Http\Controllers\Account\AdminController;
+use App\Http\Controllers\Account\HomeController;
+
+
+
 use App\Http\Controllers\BurialController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CemeteriesController;
@@ -25,7 +33,6 @@ use App\Http\Controllers\BeautificationController;
 use App\Http\Controllers\ColumbariumController;
 use App\Http\Controllers\CrematoriumController;
 use App\Http\Controllers\DeadController;
-use App\Http\Controllers\DecoderController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FuneralController;
 use App\Http\Controllers\InfoEditBurialController;
@@ -155,7 +162,7 @@ Route::prefix($city)->group(function () {
         Route::get('/add/cart', [BasketProductController::class, 'addToCart'])->name('product.add.cart');
         Route::get('/add/cart/details', [BasketProductController::class, 'addToCartDetails'])->name('product.add.cart.details');
         Route::get('/{id}/cart/delete', [BasketProductController::class, 'deleteFromCart'])->name('product.delete');
-        Route::get('/{id}', [ProductController::class, 'singleProduct'])->name('product.single');
+        Route::get('/{slug}', [ProductController::class, 'singleProduct'])->name('product.single');
         Route::get('/add/review', [ProductController::class, 'addReview'])->name('product.add.review');
 
         Route::get('/cart/change/count', [BasketProductController::class, 'changeCountCart'])->name('product.cart.count.change');
@@ -209,7 +216,7 @@ Route::prefix($city)->group(function () {
     Route::group(['prefix'=>'price-list'], function() {
         Route::get('/', [ProductPriceListController::class, 'priceList'])->name('pricelist');
         Route::get('/{slug}', [ProductPriceListController::class, 'serviceCategory'])->name('service.category');
-        Route::get('/product/{id}', [ProductPriceListController::class, 'singleProduct'])->name('pricelist.single');
+        Route::get('/product/{slug}', [ProductPriceListController::class, 'singleProduct'])->name('pricelist.single');
     });
 
 
@@ -217,7 +224,7 @@ Route::prefix($city)->group(function () {
     Route::group(['prefix'=>'news'], function() {
         Route::get('/', [NewsController::class, 'index'])->name('news');
         Route::get('/category/{id}', [NewsController::class, 'newsCat'])->name('news.category');
-        Route::get('/{id}', [NewsController::class, 'singleNews'])->name('news.single');
+        Route::get('/{slug}', [NewsController::class, 'singleNews'])->name('news.single');
     });
 
 
@@ -419,6 +426,49 @@ Route::prefix($city)->group(function () {
         });
 
     });
+
+
+    Route::group(['middleware'=>['auth','admin']],function(){
+
+        Route::group(['prefix'=>'account'], function() {
+            Route::group(['prefix'=>'admin'], function() {
+
+
+                Route::group(['prefix'=>'cemetery'], function() {
+                    Route::get('/', [AdminRitualObjectsController::class, 'cemetery'])->name('account.admin.cemetery');
+                    Route::get('/delete/{id}', [AdminRitualObjectsController::class, 'cemeteryDelete'])->name('account.admin.cemetery.delete');
+                    
+                    Route::get('/parser', [AdminRitualObjectsController::class, 'cemeteryParser'])->name('account.admin.parser.cemetery');
+                    Route::post('/import', [AdminRitualObjectsController::class, 'cemeteryImport'])->name('account.admin.parsing.cemetery');
+                    Route::post('/import/reviews', [AdminRitualObjectsController::class, 'cemeteryReviewsImport'])->name('account.admin.parsing.cemetery.reviews');
+                    
+                });
+              
+                Route::group(['prefix'=>'mortuary'], function() {
+                    Route::get('/', [AdminRitualObjectsController::class, 'mortuary'])->name('account.admin.mortuary');
+                    Route::get('/delete/{id}', [AdminRitualObjectsController::class, 'mortuaryDelete'])->name('account.admin.mortuary.delete');
+                    Route::get('/parser', [AdminRitualObjectsController::class, 'mortuaryParser'])->name('account.admin.parser.mortuary');
+                    Route::post('/import', [AdminRitualObjectsController::class, 'mortuaryImport'])->name('account.admin.parsing.mortuary');
+                });
+
+                Route::group(['prefix'=>'crematorium'], function() {
+                    Route::get('/', [AdminRitualObjectsController::class, 'crematorium'])->name('account.admin.crematorium');
+                    Route::get('/delete/{id}', [AdminRitualObjectsController::class, 'crematoriumDelete'])->name('account.admin.crematorium.delete');
+                    Route::get('/parser', [AdminRitualObjectsController::class, 'crematoriumParser'])->name('account.admin.parser.crematorium');
+                    Route::post('/import', [AdminRitualObjectsController::class, 'crematoriumImport'])->name('account.admin.parsing.crematorium');
+                });
+
+                Route::group(['prefix'=>'columbarium'], function() {
+                    Route::get('/', [AdminRitualObjectsController::class, 'columbarium'])->name('account.admin.columbarium');
+                    Route::get('/delete/{id}', [AdminRitualObjectsController::class, 'columbariumDelete'])->name('account.admin.columbarium.delete');
+                    Route::get('/parser', [AdminRitualObjectsController::class, 'columbariumParser'])->name('account.admin.parser.columbarium');
+                    Route::post('/import', [AdminRitualObjectsController::class, 'columbariumImport'])->name('account.admin.parsing.columbarium');
+                });
+              
+            });
+    
+        });
+
+    });
+
 });
-
-

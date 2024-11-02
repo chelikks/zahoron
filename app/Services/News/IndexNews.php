@@ -19,8 +19,12 @@ class IndexNews
         $cats=CategoryNews::orderBy('id', 'desc')->get();
         return view('news.index',compact('news','cats','page'));
     }
-    public static function singleNews($id){
-        $news=News::find($id);
+
+    public static function singleNews($slug){
+        $news=News::where('slug',$slug)->first();
+        if($news==null){
+            return redirect()->back();
+        }
         $cats=CategoryNews::orderBy('id', 'desc')->get();
         return view('news.single',compact('news','cats'));
     }

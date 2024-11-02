@@ -20,8 +20,12 @@ use App\Models\User;
 
 class ProductService
 {
-    public static function singleProduct($id){
-        $product=Product::findOrFail($id);
+    public static function singleProduct($slug){
+        $product=Product::where('slug',$slug)->first();
+        if($product==null){
+            return redirect()->back();
+        }
+        $id=$product->id;
         $organization=Organization::find($product->organization_id);
         $agent=User::find($organization->id);
         $additionals=[];

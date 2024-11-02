@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceColumbarium extends Model
 {
+    
     use HasFactory;
+    protected $guarded =[];
+
 }

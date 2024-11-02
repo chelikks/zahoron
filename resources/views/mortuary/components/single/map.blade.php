@@ -40,7 +40,7 @@ function init() {
             iconCaption: '{{$mortuary->title}}'
         },{
             iconLayout: 'default#image',
-            iconImageHref: "{{asset('storage/uploads/game-icons_morgue-feet.svg')}}",
+            iconImageHref: "{{asset('storage/uploads/game-icons_morgue-feet (2).svg')}}",
             iconImageSize: [40,40] // Размер иконки
         }));
     @endforeach

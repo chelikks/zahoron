@@ -10,7 +10,7 @@
                         @endif
                     @endif
                     
-                    <a href='{{route('product.single',$ritual_product->id)}}'class="title_news">{{$ritual_product->title}} </a>
+                    <a href='{{$ritual_product->route()}}'class="title_news">{{$ritual_product->title}} </a>
                     <?php $organization_product=$ritual_product->organization();?>
                     <div class="flex_raiting">
                         <div class="flex_stars">

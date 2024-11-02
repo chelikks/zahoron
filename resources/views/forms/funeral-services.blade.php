@@ -7,8 +7,8 @@ use App\Models\Mortuary;
 use App\Models\Cemetery;
 
 $cities_funeral_services=City::orderBy('title','asc')->get();
-$mortuaries=Mortuary::orderBy('title','asc')->where('city_id',$cities_funeral_services[0]->id)->get();
-$cemeteries_beatification=Cemetery::orderBy('title','asc')->where('city_id',$cities_funeral_services[0]->id)->get();
+$mortuaries=Mortuary::orderBy('title','asc')->where('city_id',selectCity()->id)->get();
+$cemeteries_beatification=Cemetery::orderBy('title','asc')->where('city_id',selectCity()->id)->get();
 
 $user=null;
 if(Auth::check()){
@@ -51,7 +51,7 @@ if(Auth::check()){
                             <div class="select"><select name="city_funeral_service" >
                                 @if(count($cities_funeral_services)>0)
                                     @foreach ($cities_funeral_services as $city_funeral_services)
-                                        <option value="{{$city_funeral_services->id}}">{{$city_funeral_services->title}}</option>
+                                        <option <?php if(selectCity()->id==$city_funeral_services->id){echo 'selected';}?> value="{{$city_funeral_services->id}}">{{$city_funeral_services->title}}</option>
                                     @endforeach
                                 @endif
                             </select></div>
@@ -151,7 +151,7 @@ if(Auth::check()){
                             </div> 
                             <div class="block_input">
                                 <label for="">Номер телефона</label>
-                                <input type="text" name='phone_funeral_service' placeholder="Номер телефона" <?php if($user!=null){echo 'value='.$user->phone;}?>>
+                                <input type="text" name="phone_funeral_service" id="" placeholder="Номер телефона" <?php if(isset($user)){if($user!=null){echo 'value="'.$user->phone.'"';}}?> >
                                 @error('phone_memorial')
                                     <div class='error-text'>{{ $message }}</div>
                                 @enderror

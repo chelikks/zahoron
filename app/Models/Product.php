@@ -46,5 +46,9 @@ class Product extends Model
     }
 
 
+    public function route(){
+        return route('product.single',$this->slug);
+    }
+
    
 }

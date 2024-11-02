@@ -22,16 +22,21 @@
     function init() {
         var myMap = new ymaps.Map("map_cemetery_single", {
                 center: [{{  $cemetery->width}}, {{$cemetery->longitude}}],
-                zoom: 10
+                zoom: 13
             }, {
                 searchControlProvider: 'yandex#search'
             });
 
         myMap.geoObjects
-            .add(new ymaps.Placemark([{{ $cemetery->width }}, {{ $cemetery->longitude }}], {
-                balloonContent: '{{ $cemetery->title }}',
-                iconCaption:  '{{ $cemetery->title }}'
-            },));
+        .add(new ymaps.Placemark(['{{$cemetery->width}}', '{{$cemetery->longitude}}'], {
+            balloonContent: '{!!$cemetery->title.'<br> <img src="'.asset('storage/uploads/Frame 334.svg').'" alt="">  '.$cemetery->rating.'<br>'.$cemetery->countReviews().' отзывов' !!}',
+            iconCaption: '{{$cemetery->title}}'
+         }, {
+            iconLayout: 'default#image',
+            iconImageHref: "{{asset('storage/uploads/mdi_grave-stone (1).svg')}}",
+            iconImageSize: [45,45] // Размер иконки
+        }));
     }
     </script>
 @endif
+        

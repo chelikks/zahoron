@@ -9,4 +9,8 @@ class News extends Model
 {
     use HasFactory;
     protected $guarded =[];
+
+    public function route(){
+        return route('news.single',$this->slug);
+    }
 }

@@ -10,7 +10,7 @@ $cities=selectCity()->edgeCities();
             <div class="ul_cities_places">
                 @foreach($cities as $city_place)
                     <a href='{{$city_place->route()}}' class="li_city_place">
-                        <img src="{{asset('storage/uploads/fluent_city-16-regular.svg')}}" alt=""> Кладбища г. {{$city_place->title}}
+                        <img class='white_icon_city_place' src="{{asset('storage/uploads/fluent_city-16-regular.svg')}}" alt=""> <img class='blue_icon_city_place' src="{{asset('storage/uploads/fluent_city-16-regular (2).svg')}}" alt=""> Кладбища г. {{$city_place->title}}
                         <div class="line_blue_place"></div>
                     </a>
                 @endforeach

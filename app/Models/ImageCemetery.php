@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ImageCemetery extends Model
 {
     use HasFactory;
+    protected $guarded =[];
 
     public function urlImg(){
         if($this->href_img==0){

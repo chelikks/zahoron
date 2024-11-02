@@ -9,7 +9,7 @@ use App\Models\CategoryProductPriceList;
 class ProductPriceListService {  
     public static function priceList(){
         $city=selectCity();
-        $cats=CategoryProductPriceList::orderBy('id', 'desc')->get();
+        $cats=CategoryProductPriceList::orderBy('id', 'desc')->where('parent_id',null)->get();
         $page=8;
         $services=ProductPriceList::orderBy('id', 'desc')->get();
         return view('product-pricelist.index',compact('services','page','cats','city'));
@@ -19,7 +19,7 @@ class ProductPriceListService {
         $city=selectCity();
         $cat_selected=CategoryProductPriceList::where('slug',$slug)->first();
         $our_works=$cat_selected->ourWorks();
-        $cats=CategoryProductPriceList::orderBy('id', 'desc')->get();
+        $cats=CategoryProductPriceList::orderBy('id', 'desc')->where('parent_id',null)->get();
         $page=8;
         $faqs=$cat_selected->faqs();
         $services=$cat_selected->services();
@@ -27,8 +27,11 @@ class ProductPriceListService {
     }
 
 
-    public static function singleProduct($id){
-        $product=ProductPriceList::findOrFail($id);
+    public static function singleProduct($slug){
+        $product=ProductPriceList::where('slug',$slug)->first();
+        if($product==null){
+            return redirect()->back();
+        }
         $advices=$product->advices();
         $reviews=$product->reviews();
         $variants=$product->variants();

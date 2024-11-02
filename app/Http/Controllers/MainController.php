@@ -8,12 +8,16 @@ use App\Models\City;
 use App\Models\News;
 use App\Models\Organization;
 use App\Models\Page;
+use App\Models\Product;
 use App\Models\Review;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Services\OurWork\OurWorkService;
 use App\Services\Burial\SearchBurialService;
 use App\Services\Page\IndexService;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Artisan;
 
 class MainController extends Controller
@@ -43,5 +47,6 @@ class MainController extends Controller
         return view('speczialist');
     }
 
+    
 
 }
